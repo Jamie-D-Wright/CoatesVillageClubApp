@@ -3,7 +3,7 @@ import { customElement } from 'lit/decorators.js';
 
 @customElement('club-stock-alerts-page')
 export class ClubStockAlertsPage extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       display: block;
       padding: var(--spacing-xl, 2rem);
@@ -22,7 +22,7 @@ export class ClubStockAlertsPage extends LitElement {
     }
   `;
 
-  render() {
+  override render() {
     return html`
       <h1>Stock Alerts</h1>
       <wa-card>

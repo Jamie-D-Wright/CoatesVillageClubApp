@@ -1,6 +1,5 @@
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import type { Router } from '@vaadin/router';
 import { initRouter } from '../router';
 import './layout/club-app-header';
 
@@ -30,13 +29,10 @@ export class ClubApp extends LitElement {
     }
   `;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private router?: Router;
-
   override firstUpdated() {
     const outlet = this.renderRoot.querySelector('#router-outlet') as HTMLElement;
     if (outlet) {
-      this.router = initRouter(outlet);
+      initRouter(outlet);
       
       // Set focus on route changes for accessibility
       window.addEventListener('vaadin-router-location-changed', () => {

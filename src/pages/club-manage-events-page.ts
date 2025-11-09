@@ -3,7 +3,7 @@ import { customElement } from 'lit/decorators.js';
 
 @customElement('club-manage-events-page')
 export class ClubManageEventsPage extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       display: block;
       padding: var(--spacing-xl, 2rem);
@@ -27,7 +27,7 @@ export class ClubManageEventsPage extends LitElement {
     }
   `;
 
-  render() {
+  override render() {
     return html`
       <h1>
         Manage Events

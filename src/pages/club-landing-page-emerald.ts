@@ -3,7 +3,7 @@ import { customElement } from 'lit/decorators.js';
 
 @customElement('club-landing-page-emerald')
 export class ClubLandingPageEmerald extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       display: block;
       background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);

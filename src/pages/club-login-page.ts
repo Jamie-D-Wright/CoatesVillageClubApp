@@ -4,7 +4,7 @@ import '../components/auth/club-login-form';
 
 @customElement('club-login-page')
 export class ClubLoginPage extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       display: block;
       padding: var(--spacing-xl, 2rem);
@@ -16,7 +16,7 @@ export class ClubLoginPage extends LitElement {
     }
   `;
 
-  render() {
+  override render() {
     return html`
       <club-login-form></club-login-form>
     `;
