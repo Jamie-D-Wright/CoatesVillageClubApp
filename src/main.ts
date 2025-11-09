@@ -8,6 +8,7 @@ import 'https://ka-p.webawesome.com/kit/60d71a227629472d/webawesome@3.0.0/compon
 import 'https://ka-p.webawesome.com/kit/60d71a227629472d/webawesome@3.0.0/components/badge/badge.js';
 import 'https://ka-p.webawesome.com/kit/60d71a227629472d/webawesome@3.0.0/components/drawer/drawer.js';
 import 'https://ka-p.webawesome.com/kit/60d71a227629472d/webawesome@3.0.0/components/input/input.js';
+// @ts-expect-error Web Awesome CDN import
 import { setDefaultIconFamily } from 'https://ka-p.webawesome.com/kit/60d71a227629472d/webawesome@3.0.0/webawesome.js';
 
 // Set the default icon family

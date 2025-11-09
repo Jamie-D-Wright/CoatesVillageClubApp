@@ -3,7 +3,7 @@ import { customElement } from 'lit/decorators.js';
 
 @customElement('club-shifts-page')
 export class ClubShiftsPage extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       display: block;
       padding: var(--spacing-xl, 2rem);
@@ -22,7 +22,7 @@ export class ClubShiftsPage extends LitElement {
     }
   `;
 
-  render() {
+  override render() {
     return html`
       <h1>Volunteer Shifts</h1>
       <wa-card>

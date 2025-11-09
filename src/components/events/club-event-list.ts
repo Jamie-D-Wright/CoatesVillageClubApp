@@ -2,7 +2,6 @@ import { LitElement, html, css } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { eventsService } from '../../services/events-service';
 import type { Event } from '../../services/types';
-import { EventType } from '../../services/types';
 import './club-event-card';
 import './club-event-timeline';
 
@@ -20,25 +19,26 @@ export class ClubEventList extends LitElement {
       display: flex;
       justify-content: center;
       gap: 1rem;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
       padding: 1rem;
-      background: linear-gradient(135deg, #fff1f2 0%, #ffffff 100%);
+      background: white;
       border-radius: 12px;
-      border: 1px solid #fecdd3;
+      border: 1px solid #f3f4f6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
     .view-toggle {
       display: flex;
       gap: 0.5rem;
-      padding: 0.5rem;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      padding: 0.375rem;
+      background: #f9fafb;
+      border-radius: 10px;
     }
 
     wa-button::part(base) {
       border-radius: 8px;
       font-weight: 600;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .loading-container,
@@ -66,31 +66,32 @@ export class ClubEventList extends LitElement {
     }
 
     .error-container {
-      background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
-      border-radius: 20px;
+      background: white;
+      border-radius: 16px;
       padding: 3rem 2rem;
-      border: 1px solid #fecaca;
+      border: 1px solid #fee2e2;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
     .error-icon-wrapper {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 80px;
-      height: 80px;
+      width: 72px;
+      height: 72px;
       margin-bottom: 1.5rem;
       background: linear-gradient(135deg, #ef4444, #dc2626);
-      border-radius: 20px;
-      box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.3);
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(239, 68, 68, 0.2);
     }
 
     .error-icon {
-      font-size: 2.5rem;
+      font-size: 2rem;
       color: white;
     }
 
     .error-message {
-      font-size: 1.25rem;
+      font-size: 1.125rem;
       margin-bottom: 1.5rem;
       font-weight: 600;
       color: #991b1b;
@@ -111,32 +112,33 @@ export class ClubEventList extends LitElement {
     }
 
     .empty-container {
-      background: linear-gradient(135deg, #fff1f2 0%, #ffffff 100%);
-      border-radius: 20px;
+      background: white;
+      border-radius: 16px;
       padding: 4rem 2rem;
-      border: 1px solid #fecdd3;
+      border: 1px solid #f3f4f6;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
     .empty-icon-wrapper {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 80px;
-      height: 80px;
+      width: 72px;
+      height: 72px;
       margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, #f43f5e, #e11d48);
-      border-radius: 20px;
-      box-shadow: 0 10px 15px -3px rgba(225, 29, 72, 0.3);
+      background: linear-gradient(135deg, #e11d48, #f43f5e);
+      border-radius: 16px;
+      box-shadow: 0 8px 16px rgba(225, 29, 72, 0.2);
     }
 
     .empty-icon {
-      font-size: 2.5rem;
+      font-size: 2rem;
       color: white;
     }
 
     .empty-message {
-      font-size: 1.25rem;
-      color: #64748b;
+      font-size: 1.125rem;
+      color: #6b7280;
       font-weight: 500;
     }
 

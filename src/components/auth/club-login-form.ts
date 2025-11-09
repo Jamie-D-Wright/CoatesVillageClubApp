@@ -5,7 +5,7 @@ import type { LoginCredentials } from '../../services/auth-service';
 
 @customElement('club-login-form')
 export class ClubLoginForm extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       display: block;
       max-width: 400px;
@@ -129,7 +129,7 @@ export class ClubLoginForm extends LitElement {
     this.password = (e.target as HTMLInputElement).value;
   }
 
-  render() {
+  override render() {
     return html`
       <wa-card class="login-container">
         <h2>Sign In</h2>

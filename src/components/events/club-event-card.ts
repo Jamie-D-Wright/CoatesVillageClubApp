@@ -5,7 +5,7 @@ import { EventType } from '../../services/types';
 
 @customElement('club-event-card')
 export class ClubEventCard extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       display: block;
       height: 100%;
@@ -13,22 +13,24 @@ export class ClubEventCard extends LitElement {
 
     wa-card {
       height: 100%;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     wa-card::part(base) {
       padding: 1.75rem;
-      border-radius: 20px;
+      border-radius: 16px;
       height: 100%;
       display: flex;
       flex-direction: column;
-      border: 1px solid #fecdd3;
-      background: linear-gradient(135deg, #ffffff 0%, #fff1f2 100%);
+      border: 1px solid #f3f4f6;
+      background: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
 
     wa-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      border-color: #fee2e2;
     }
 
     .card-header {
@@ -41,9 +43,9 @@ export class ClubEventCard extends LitElement {
 
     .event-title {
       margin: 0;
-      font-size: 1.375rem;
-      font-weight: 700;
-      color: #1e293b;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1f2937;
       line-height: 1.3;
       flex: 1;
     }
@@ -67,7 +69,7 @@ export class ClubEventCard extends LitElement {
       gap: 0.75rem;
       margin-bottom: 1.25rem;
       padding: 1rem;
-      background: rgba(255, 255, 255, 0.8);
+      background: #f9fafb;
       border-radius: 12px;
       border: 1px solid #f3f4f6;
     }
@@ -77,21 +79,21 @@ export class ClubEventCard extends LitElement {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      font-size: 0.9375rem;
-      color: #475569;
+      font-size: 0.875rem;
+      color: #4b5563;
       font-weight: 500;
     }
 
     .event-date wa-icon,
     .event-time wa-icon {
       color: #e11d48;
-      font-size: 1.125rem;
+      font-size: 1rem;
     }
 
     .event-description {
-      font-size: 1rem;
+      font-size: 0.9375rem;
       line-height: 1.7;
-      color: #64748b;
+      color: #6b7280;
       margin: 0;
       flex: 1;
     }

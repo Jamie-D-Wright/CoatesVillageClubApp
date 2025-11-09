@@ -20,7 +20,7 @@ interface MenuGroup {
 
 @customElement('club-app-header')
 export class ClubAppHeader extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       display: block;
       position: sticky;
