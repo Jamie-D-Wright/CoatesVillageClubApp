@@ -10,13 +10,14 @@ export class ClubApp extends LitElement {
     :host {
       display: block;
       min-height: 100vh;
-      background: linear-gradient(180deg, #fff1f2 0%, #ffffff 100%);
+      background: white;
     }
 
     main {
       max-width: 1280px;
       margin: 0 auto;
       min-height: calc(100vh - 64px);
+      background: white;
     }
 
     #router-outlet {
@@ -29,6 +30,7 @@ export class ClubApp extends LitElement {
     }
   `;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private router?: Router;
 
   override firstUpdated() {
