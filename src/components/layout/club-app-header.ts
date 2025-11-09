@@ -26,16 +26,18 @@ export class ClubAppHeader extends LitElement {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: var(--wa-color-primary-600, #1e40af);
-      color: white;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      color: #1e293b;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
     }
 
     .header-content {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: var(--spacing-4, 1rem) var(--spacing-lg, 1.5rem);
+      padding: 1rem 1.5rem;
       max-width: 1280px;
       margin: 0 auto;
     }
@@ -47,13 +49,26 @@ export class ClubAppHeader extends LitElement {
     }
 
     .logo {
-      font-size: var(--font-size-xl, 1.25rem);
-      font-weight: var(--font-weight-bold, 700);
+      font-size: 1.25rem;
+      font-weight: 800;
       text-decoration: none;
-      color: white;
+      background: linear-gradient(135deg, #be123c, #e11d48);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
       display: flex;
       align-items: center;
-      gap: var(--spacing-2, 0.5rem);
+      gap: 0.5rem;
+      transition: opacity 0.2s;
+    }
+    
+    .logo:hover {
+      opacity: 0.8;
+    }
+    
+    .logo wa-icon {
+      color: #e11d48;
+      -webkit-text-fill-color: #e11d48;
     }
 
     .offline-indicator {
@@ -105,30 +120,35 @@ export class ClubAppHeader extends LitElement {
     .nav-link {
       display: flex;
       align-items: center;
-      gap: var(--spacing-2, 0.5rem);
-      padding: var(--spacing-2, 0.5rem) var(--spacing-4, 1rem);
-      color: white;
+      gap: 0.5rem;
+      padding: 0.625rem 1rem;
+      color: #64748b;
       text-decoration: none;
-      border-radius: 4px;
-      font-size: var(--font-size-sm, 0.875rem);
-      font-weight: var(--font-weight-medium, 500);
-      transition: background-color 0.2s;
+      border-radius: 8px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      transition: all 0.2s;
     }
 
     .nav-link:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: #f1f5f9;
+      color: #1e293b;
     }
 
     .nav-link[aria-current="page"] {
-      background: rgba(255, 255, 255, 0.2);
-      font-weight: var(--font-weight-semibold, 600);
+      background: linear-gradient(135deg, #be123c, #e11d48);
+      color: white;
+    }
+    
+    .nav-link[aria-current="page"] wa-icon {
+      color: white;
     }
 
     .nav-group-label {
-      padding: var(--spacing-2, 0.5rem) var(--spacing-4, 1rem);
-      color: rgba(255, 255, 255, 0.7);
-      font-size: var(--font-size-xs, 0.75rem);
-      font-weight: var(--font-weight-semibold, 600);
+      padding: 0.5rem 1rem;
+      color: #94a3b8;
+      font-size: 0.75rem;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -137,12 +157,18 @@ export class ClubAppHeader extends LitElement {
     .mobile-menu-button {
       background: none;
       border: none;
-      color: white;
+      color: #1e293b;
       cursor: pointer;
-      padding: var(--spacing-2, 0.5rem);
+      padding: 0.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+    }
+    
+    .mobile-menu-button:hover {
+      background: #f1f5f9;
     }
 
     /* Drawer Styles */
@@ -155,15 +181,16 @@ export class ClubAppHeader extends LitElement {
     }
 
     .drawer-header {
-      padding: var(--spacing-lg, 1.5rem);
-      background: var(--wa-color-primary-600);
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #be123c, #e11d48);
       color: white;
     }
 
     .drawer-title {
       margin: 0;
-      font-size: var(--font-size-lg, 1.125rem);
-      font-weight: var(--font-weight-bold, 700);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
     }
 
     .drawer-nav {
@@ -271,7 +298,7 @@ export class ClubAppHeader extends LitElement {
     },
   ];
 
-  connectedCallback() {
+  override connectedCallback() {
     super.connectedCallback();
     this.updateAuthContext();
     
@@ -290,7 +317,7 @@ export class ClubAppHeader extends LitElement {
     this.updateQueueSize();
   }
 
-  disconnectedCallback() {
+  override disconnectedCallback() {
     super.disconnectedCallback();
     window.removeEventListener('auth-changed', this.handleAuthChanged);
     window.removeEventListener('online', this.handleOnlineStatus);
@@ -376,8 +403,6 @@ export class ClubAppHeader extends LitElement {
   }
 
   private renderDesktopNav() {
-    if (!this.authContextValue.isAuthenticated) return '';
-
     return html`
       <nav class="desktop-nav" aria-label="Main navigation">
         <ul class="nav-list" role="list">
@@ -421,40 +446,40 @@ export class ClubAppHeader extends LitElement {
         <h2 class="drawer-title">Coates Village Club</h2>
       </div>
       
+      <nav class="drawer-nav" aria-label="Main navigation">
+        ${this.menuGroups.map((group, index) => {
+          if (!this.shouldShowGroup(group)) return '';
+          
+          return html`
+            ${index > 0 ? html`<div class="drawer-divider"></div>` : ''}
+            <div class="drawer-group">
+              ${group.label ? html`
+                <div class="drawer-group-label">${group.label}</div>
+              ` : ''}
+              ${group.items.map(item => {
+                if (!this.shouldShowMenuItem(item)) return '';
+                
+                return html`
+                  <a
+                    href=${item.path}
+                    class="drawer-nav-link"
+                    ?aria-current=${this.isCurrentPage(item.path) ? 'page' : undefined}
+                    @click=${(e: Event) => {
+                      e.preventDefault();
+                      this.handleNavClick(item.path);
+                    }}
+                  >
+                    <wa-icon name=${item.icon}></wa-icon>
+                    <span>${item.label}</span>
+                  </a>
+                `;
+              })}
+            </div>
+          `;
+        })}
+      </nav>
+      
       ${this.authContextValue.isAuthenticated ? html`
-        <nav class="drawer-nav" aria-label="Main navigation">
-          ${this.menuGroups.map((group, index) => {
-            if (!this.shouldShowGroup(group)) return '';
-            
-            return html`
-              ${index > 0 ? html`<div class="drawer-divider"></div>` : ''}
-              <div class="drawer-group">
-                ${group.label ? html`
-                  <div class="drawer-group-label">${group.label}</div>
-                ` : ''}
-                ${group.items.map(item => {
-                  if (!this.shouldShowMenuItem(item)) return '';
-                  
-                  return html`
-                    <a
-                      href=${item.path}
-                      class="drawer-nav-link"
-                      ?aria-current=${this.isCurrentPage(item.path) ? 'page' : undefined}
-                      @click=${(e: Event) => {
-                        e.preventDefault();
-                        this.handleNavClick(item.path);
-                      }}
-                    >
-                      <wa-icon name=${item.icon}></wa-icon>
-                      <span>${item.label}</span>
-                    </a>
-                  `;
-                })}
-              </div>
-            `;
-          })}
-        </nav>
-        
         <div class="user-info">
           <div class="user-email">${this.authContextValue.user?.email}</div>
           <wa-badge class="user-role" variant="neutral">
@@ -465,7 +490,7 @@ export class ClubAppHeader extends LitElement {
     `;
   }
 
-  render() {
+  override render() {
     return html`
       <header>
         <div class="header-content">

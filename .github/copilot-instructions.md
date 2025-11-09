@@ -32,11 +32,49 @@ The project uses Web Awesome Pro via CDN instead of NPM package for:
 - Automatic updates to latest Pro features
 - CDN Kit ID: `60d71a227629472d` (included in `index.html`)
 
+**Component Documentation**: https://webawesome.com/docs/components/
+- Always check component documentation before implementing UI elements
+- Use Web Awesome components as the primary building blocks
+- Minimize custom CSS and HTML - leverage built-in component features
+- Components include: buttons, cards, inputs, dialogs, dropdowns, badges, alerts, and more
+
+#### CDN Implementation Requirements
+**CRITICAL**: Web Awesome Pro CDN components must be explicitly imported when used inside Lit shadow DOM:
+
+1. **Import Components in `src/main.ts`**: 
+   - The CDN kit script loads configuration but does NOT auto-register components used in shadow DOM
+   - Must explicitly import each component type used in the application
+   - Example:
+   ```typescript
+   // Import Web Awesome components we use
+   import 'https://ka-p.webawesome.com/kit/60d71a227629472d/webawesome@3.0.0/components/icon/icon.js';
+   import 'https://ka-p.webawesome.com/kit/60d71a227629472d/webawesome@3.0.0/components/button/button.js';
+   import 'https://ka-p.webawesome.com/kit/60d71a227629472d/webawesome@3.0.0/components/card/card.js';
+   import { setDefaultIconFamily } from 'https://ka-p.webawesome.com/kit/60d71a227629472d/webawesome@3.0.0/webawesome.js';
+   setDefaultIconFamily('classic');
+   ```
+
+2. **Icon Usage**:
+   - Do NOT use `family="regular"` attribute on `<wa-icon>` elements
+   - The CDN sets default icon family to 'classic' automatically
+   - Icons should be: `<wa-icon name="calendar"></wa-icon>`
+   - NOT: `<wa-icon family="regular" name="calendar"></wa-icon>`
+
+3. **Component Registration Issues**:
+   - If components don't render (show as empty/missing), check that they're imported in `main.ts`
+   - Use browser console: `customElements.get('wa-icon')` should return component constructor
+   - If returns `undefined`, the component wasn't imported correctly
+
 ### Dependency Philosophy
 - **Minimal Dependencies**: Keep the dependency tree as lean as possible
 - Only add new dependencies if they provide significant value and cannot be reasonably implemented with existing tools
 - Prefer native browser APIs and web standards over third-party libraries
 - Leverage Lit's built-in reactivity and Web Awesome's components before adding utilities
+
+### Development Best Practices
+- **Resolve Warnings Immediately**: Address all TypeScript, linting, and build warnings as they occur - do not allow technical debt to accumulate
+- **Zero Warning Policy**: Every commit should resolve all warnings in the codebase
+- **Continuous Quality**: Fix issues during development, not after
 
 ## Project Structure
 
@@ -88,6 +126,123 @@ CoatesVillageClubApp/
 - **Refinement Phase**: Capture screenshots for AI analysis to improve aesthetics, accessibility, and usability
 - **Production**: Maintain visual regression tests to prevent UI degradation
 
+### Visual Design Review with Browser MCP Server
+Use the browser MCP server to capture, analyze, and iteratively improve UI designs:
+
+#### 1. Capture Current Design
+```typescript
+// Navigate to the page/component
+await page.goto('http://localhost:3002/component-path');
+
+// Wait for content to load
+await page.waitForSelector('component-selector');
+
+// Capture full page screenshot for analysis
+await page.screenshot({ 
+  path: 'design-review/current-design.png',
+  fullPage: true 
+});
+```
+
+#### 2. Visual Analysis Process
+- **Review Screenshots**: Examine captured designs for visual hierarchy, spacing, colors, and consistency
+- **Identify Issues**: Look for:
+  - Elements that dominate unnecessarily (oversized badges, heavy borders)
+  - Inconsistent spacing and alignment
+  - Poor color contrast or excessive use of accent colors
+  - Typography hierarchy problems (sizes, weights, line-heights)
+  - Hover states and interactions that need refinement
+  - Components that don't match the design system
+
+#### 3. Document Improvements
+Create a list of specific improvements with rationale:
+```markdown
+## Design Analysis
+
+### Issues Found:
+1. Date badges too large - dominate the card visual hierarchy
+2. Timeline line too thick - draws attention away from content
+3. Cards lack subtle shadows - appear flat
+4. Hover effects basic - need more polish
+5. Typography weights inconsistent - some text too bold/light
+
+### Proposed Solutions:
+1. Reduce date badge size, use outline style instead of solid fill
+2. Make timeline line thinner (2px) with gradient and opacity
+3. Add subtle shadows and elegant borders to cards
+4. Enhance hover with scale, movement, and shadow transitions
+5. Refine font sizes and weights for better hierarchy
+```
+
+#### 4. Implement Improvements
+Apply changes systematically:
+- Use `multi_replace_string_in_file` for efficiency when making multiple related changes
+- Focus on one area at a time (e.g., all timeline improvements, then all card improvements)
+- Keep changes consistent with the design system (check `docs/design-system/tokens.md`)
+
+#### 5. Capture and Compare
+```typescript
+// Reload the page to see changes
+await page.reload();
+
+// Capture improved design
+await page.screenshot({ 
+  path: 'design-review/improved-design.png',
+  fullPage: true 
+});
+```
+
+#### 6. Iterate as Needed
+- Compare before/after screenshots
+- Identify remaining issues or new problems introduced
+- Continue refining until design meets quality standards
+- Test across different viewport sizes (mobile, tablet, desktop)
+
+#### 7. Best Practices
+- **Start the dev server first**: Ensure `npm run dev` is running before using browser MCP
+- **Wait for content**: Use `page.waitForSelector()` to ensure dynamic content has loaded
+- **Test interactions**: Capture hover states, active states, and transitions
+- **Mobile-first**: Test responsive behavior at multiple breakpoints
+- **Accessibility**: Check color contrast, focus states, and keyboard navigation
+- **Consistency**: Compare similar components to ensure unified styling
+
+#### Example: Complete Review Workflow
+```typescript
+// 1. Navigate and capture original
+await page.goto('http://localhost:3002/events');
+await page.waitForSelector('club-event-timeline');
+await page.screenshot({ path: 'review/timeline-before.png', fullPage: true });
+
+// 2. Analyze and identify improvements needed:
+// - Timeline dots too large
+// - Card borders too heavy
+// - Date badges too prominent
+
+// 3. Implement changes in code (CSS refinements)
+
+// 4. Reload and capture improved version
+await page.reload();
+await page.waitForTimeout(500); // Allow animations to settle
+await page.screenshot({ path: 'review/timeline-after.png', fullPage: true });
+
+// 5. Test interactions
+await page.hover('.event-card'); // Capture hover state if needed
+await page.screenshot({ path: 'review/timeline-hover.png' });
+
+// 6. Test responsive
+await page.setViewportSize({ width: 375, height: 812 });
+await page.screenshot({ path: 'review/timeline-mobile.png', fullPage: true });
+```
+
+#### When to Use Browser MCP Review
+- After implementing new components or pages
+- When visual design feels "off" but specific issues aren't clear
+- Before committing major UI changes
+- When refining existing designs for better polish
+- To compare design variants (grid vs. timeline, different color schemes)
+- To validate responsive behavior across breakpoints
+- When gathering screenshots for documentation or design reviews
+
 ## Code Standards
 
 ### Lit Components
@@ -107,6 +262,7 @@ export class ClubMemberCard extends LitElement {
   static styles = css`
     :host {
       display: block;
+      background: white; /* Clean white background - avoid neutral-50 gray */
     }
   `;
 
@@ -114,16 +270,42 @@ export class ClubMemberCard extends LitElement {
   name = '';
 
   render() {
-    return html`<div>${this.name}</div>`;
+    return html`
+      <wa-card>
+        <div>${this.name}</div>
+      </wa-card>
+    `;
   }
 }
 ```
 
+**Styling Best Practices**:
+- Always set `background: white` on `:host` for page components to prevent gray backgrounds
+- Use Web Awesome CSS custom properties for colors: `var(--wa-color-primary-600)`, `var(--wa-color-neutral-900)`, etc.
+- Icons should NOT have `family` attribute - let CDN defaults handle it
+- Leverage Web Awesome component variants (`variant="primary"`, `size="large"`) instead of custom CSS
+
 ### Web Awesome Components
-- Use Web Awesome components as building blocks
-- Customize through CSS custom properties
-- Maintain consistent theming across all components
-- Reference Web Awesome documentation (https://webawesome.com/docs/) for component APIs
+**Primary UI Library** - Use Web Awesome components for ALL UI elements wherever possible:
+- **Component Documentation**: https://webawesome.com/docs/components/
+- **Icons Library**: https://webawesome.com/icons
+- Use Web Awesome components as the default choice before writing custom HTML/CSS
+- Minimize custom CSS - leverage component variants, sizes, and built-in styling options
+- Customize through CSS custom properties (CSS variables) only when necessary
+- Maintain consistent theming across all components using design tokens
+- Common components to use:
+  - `<wa-button>` for all buttons (https://webawesome.com/docs/components/button/)
+  - `<wa-card>` for content containers (https://webawesome.com/docs/components/card/)
+  - `<wa-input>`, `<wa-select>`, `<wa-checkbox>`, `<wa-radio>` for forms (https://webawesome.com/docs/components/input/)
+  - `<wa-dialog>` for modals (https://webawesome.com/docs/components/dialog/)
+  - `<wa-alert>` for notifications (https://webawesome.com/docs/components/alert/)
+  - `<wa-badge>` for status indicators (https://webawesome.com/docs/components/badge/)
+  - `<wa-spinner>` for loading states (https://webawesome.com/docs/components/spinner/)
+  - `<wa-icon>` for all icons (https://webawesome.com/docs/components/icon/)
+  - `<wa-dropdown>` for menus (https://webawesome.com/docs/components/dropdown/)
+  - `<wa-tab-group>` and `<wa-tab>` for tabbed interfaces (https://webawesome.com/docs/components/tab-group/)
+
+**Philosophy**: Web Awesome provides comprehensive, accessible, and well-tested components. Using them reduces code, improves consistency, and ensures accessibility compliance. Only write custom HTML/CSS when Web Awesome doesn't provide the required functionality.
 
 ### API Integration
 - Create service classes for API endpoints
@@ -187,10 +369,26 @@ As a [user type], I want to [action], so that [benefit].
 
 ### Design System Documentation (docs/design-system/)
 - **Colors**: Primary, secondary, semantic colors (success, warning, error)
+  - **Brand Color Scheme**: Defined in `docs/design-system/tokens.md`
+  - All pages and components MUST use the unified brand color scheme
+  - Always check documentation before implementing colors
 - **Typography**: Font families, sizes, weights, line heights
 - **Spacing**: Spacing scale (4px, 8px, 16px, 24px, 32px, etc.)
 - **Components**: Document reusable component patterns
 - **Breakpoints**: Mobile, tablet, desktop breakpoints
+
+### Color Consistency Workflow
+When updating colors or adding new pages/components:
+1. **Check Design Tokens First**: Review `docs/design-system/tokens.md` for the current brand color scheme
+2. **Use Brand Colors**: Apply the documented gradients and accent colors consistently
+3. **Update Multiple Files**: If changing the color scheme, update ALL of these files:
+   - `src/styles/global.css` - Global CSS variables
+   - `docs/design-system/tokens.md` - Design token documentation
+   - All page components (`src/pages/*.ts`) - Hero gradients and backgrounds
+   - All UI components (`src/components/**/*.ts`) - Accent colors, borders, icons
+4. **Verify Consistency**: Check that all pages use the same color palette
+5. **Update Visual Baselines**: Run `npx playwright test --update-snapshots` to update visual regression tests
+6. **Document Changes**: Update design documentation with rationale for color choices
 
 ## Testing Strategy
 
@@ -278,15 +476,22 @@ When working with AI (Copilot, ChatGPT, etc.):
 - Validate responsive design across viewports
 - Review generated code for dependency bloat
 - Ensure suggestions align with Lit and Web Awesome patterns
+- Use browser MCP server to capture designs and iterate based on visual analysis
+- Request specific improvements based on captured screenshots (spacing, colors, typography, shadows)
+- Compare before/after screenshots to validate improvements
 
 ## Key Principles
 1. **Documentation-Driven Development**: Document before you code
-2. **Visual Validation**: Use Playwright extensively to "see" what you're building
+2. **Visual Validation**: Use Playwright and browser MCP extensively to "see" what you're building
 3. **Minimal Dependencies**: Question every new dependency
 4. **Progressive Enhancement**: Build for the web platform
 5. **Accessibility First**: Design for all users from the start
 6. **Performance Matters**: Fast and efficient by default
 7. **Test Early, Test Often**: Playwright tests guide development
+8. **Zero Warnings**: Resolve all warnings immediately as they occur
+9. **Web Awesome First**: Use Web Awesome components before writing custom HTML/CSS
+10. **Design Consistency**: Maintain unified color scheme across all pages - always check and update design documentation
+11. **Iterative Refinement**: Capture designs with browser MCP, analyze visually, implement improvements, and compare results
 
 ## Getting Started Checklist
 - [ ] Access the "Coates Village Club" Copilot Space (Jamie-D-Wright/Coates Village Club) via GitHub MCP for backend API documentation
@@ -303,4 +508,4 @@ When working with AI (Copilot, ChatGPT, etc.):
 
 ---
 
-**Remember**: The goal is to create a fast, accessible, and maintainable PWA that serves the Coates Village Club community effectively. Use Playwright and AI vision capabilities as your design partner throughout the entire development lifecycle.
+**Remember**: The goal is to create a fast, accessible, and maintainable PWA that serves the Coates Village Club community effectively. Use Playwright and browser MCP server as your design partners throughout the entire development lifecycle - capture, analyze, improve, and validate designs iteratively for professional results.

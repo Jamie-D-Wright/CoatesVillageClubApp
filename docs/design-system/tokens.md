@@ -3,20 +3,22 @@
 ## Overview
 Design system tokens define the visual language for Coates Village Club PWA. These tokens ensure consistency across all components and align with Web Awesome's theming system.
 
+**Brand Color**: The app uses a **Rose/Red** color palette (#be123c → #e11d48 → #f43f5e) for a warm, welcoming, and energetic community feel. This color scheme is applied consistently across all pages and components.
+
 ## Colors
 
-### Primary Palette
+### Primary Palette (Rose/Red Brand Colors)
 ```css
---primary-50: #eff6ff;
---primary-100: #dbeafe;
---primary-200: #bfdbfe;
---primary-300: #93c5fd;
---primary-400: #60a5fa;
---primary-500: #3b82f6;  /* Main primary color */
---primary-600: #2563eb;
---primary-700: #1d4ed8;
---primary-800: #1e40af;  /* Darker primary for headers */
---primary-900: #1e3a8a;
+--primary-50: #fff1f2;
+--primary-100: #ffe4e6;
+--primary-200: #fecdd3;
+--primary-300: #fda4af;
+--primary-400: #fb7185;
+--primary-500: #f43f5e;  /* Light primary */
+--primary-600: #e11d48;  /* Main primary color */
+--primary-700: #be123c;  /* Dark primary for headers */
+--primary-800: #9f1239;
+--primary-900: #881337;
 ```
 
 ### Neutral Palette (Grays)
@@ -59,8 +61,14 @@ Design system tokens define the visual language for Coates Village Club PWA. The
 ### Background Colors
 ```css
 --bg-primary: #ffffff;
---bg-secondary: #f9fafb;
---bg-tertiary: #f3f4f6;
+--bg-secondary: #fff1f2;       /* Rose tint */
+--bg-tertiary: #ffe4e6;        /* Lighter rose tint */
+--bg-gradient: linear-gradient(180deg, #fff1f2 0%, #ffffff 100%);
+```
+
+### Hero/Feature Gradients
+```css
+--hero-gradient: linear-gradient(135deg, #be123c 0%, #e11d48 50%, #f43f5e 100%);
 ```
 
 ### Text Colors
@@ -73,9 +81,10 @@ Design system tokens define the visual language for Coates Village Club PWA. The
 
 ### Border Colors
 ```css
---border-light: #e5e7eb;
---border-medium: #d1d5db;
---border-dark: #9ca3af;
+--border-light: #fecdd3;      /* Rose-200 for primary borders */
+--border-medium: #fda4af;     /* Rose-300 */
+--border-dark: #fb7185;       /* Rose-400 */
+--border-neutral: #e5e7eb;    /* Neutral borders */
 ```
 
 ## Typography
@@ -280,11 +289,13 @@ fa-button {
 - **UI Components**: Minimum 3:1 contrast ratio
 
 ### Verified Combinations (WCAG AA Compliant)
-- Primary text: `--text-primary` on `--bg-primary` ✓
-- Secondary text: `--text-secondary` on `--bg-primary` ✓
-- Primary button: `--text-inverse` on `--primary-600` ✓
-- Error text: `--error-700` on `--error-50` ✓
-- Success text: `--success-700` on `--success-50` ✓
+- Primary text: `--text-primary` (#1f2937) on `--bg-primary` (#ffffff) ✓ (14.8:1)
+- Secondary text: `--text-secondary` (#6b7280) on `--bg-primary` (#ffffff) ✓ (5.74:1)
+- Primary button: `--text-inverse` (#ffffff) on `--primary-600` (#e11d48) ✓ (4.53:1)
+- Hero text: `--text-inverse` (#ffffff) on rose gradient ✓ (4.5:1+)
+- Rose accent: `--primary-600` (#e11d48) on `--bg-primary` (#ffffff) ✓ (4.53:1)
+- Error text: `--error-700` (#b91c1c) on `--error-50` (#fef2f2) ✓ (7.0:1)
+- Success text: `--success-700` (#15803d) on `--success-50` (#f0fdf4) ✓ (7.5:1)
 
 ### Component-Specific Tokens
 Create component-specific token files as needed:

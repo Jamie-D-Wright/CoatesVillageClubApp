@@ -2,27 +2,24 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Event List - View Public Events', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/events');
   });
 
-  test('should display the app header', async ({ page }) => {
-    await expect(page.locator('h1')).toContainText('Coates Village Club');
-    await expect(page.locator('.subtitle')).toContainText('Discover what\'s happening');
+  test('should display the events page header', async ({ page }) => {
+    await expect(page.locator('h1')).toContainText('Upcoming Events');
+    await expect(page.locator('.hero-subtitle')).toContainText('Discover exciting events');
   });
 
   test('should show loading state initially', async ({ page }) => {
     const loadingContainer = page.locator('.loading-container');
     await expect(loadingContainer).toBeVisible();
     await expect(loadingContainer).toHaveAttribute('aria-busy', 'true');
-    await expect(page.locator('.loading-text')).toContainText('Loading events');
+    await expect(page.locator('.loading-text')).toContainText('Loading');
   });
 
   test('should display events after loading', async ({ page }) => {
     // Wait for loading to complete
     await page.waitForSelector('.events-grid', { timeout: 10000 });
-    
-    // Check section header
-    await expect(page.locator('.section-title')).toContainText('Upcoming Events');
     
     // Check that events are displayed
     const eventCards = page.locator('club-event-card');
@@ -130,7 +127,7 @@ test.describe('Event List - View Public Events', () => {
 
 test.describe('Event List - Visual Regression', () => {
   test('should match baseline for event list on desktop', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/events');
     await page.waitForSelector('.events-grid', { timeout: 10000 });
     
     await expect(page).toHaveScreenshot('event-list-desktop.png', {
@@ -140,7 +137,7 @@ test.describe('Event List - Visual Regression', () => {
 
   test('should match baseline for event list on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/');
+    await page.goto('/events');
     await page.waitForSelector('.events-grid', { timeout: 10000 });
     
     await expect(page).toHaveScreenshot('event-list-mobile.png', {
@@ -149,7 +146,7 @@ test.describe('Event List - Visual Regression', () => {
   });
 
   test('should match baseline for loading state', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/events');
     
     // Capture loading state quickly before it disappears
     await page.waitForSelector('.loading-container', { timeout: 5000 });

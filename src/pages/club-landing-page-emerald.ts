@@ -1,17 +1,17 @@
 import { LitElement, html, css } from 'lit';
 import { customElement } from 'lit/decorators.js';
 
-@customElement('club-landing-page')
-export class ClubLandingPage extends LitElement {
-  static override styles = css`
+@customElement('club-landing-page-emerald')
+export class ClubLandingPageEmerald extends LitElement {
+  static styles = css`
     :host {
       display: block;
-      background: linear-gradient(180deg, #fff1f2 0%, #ffffff 100%);
+      background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
     }
 
     .hero {
       position: relative;
-      background: linear-gradient(135deg, #be123c 0%, #e11d48 50%, #f43f5e 100%);
+      background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
       color: white;
       padding: 5rem 1.5rem 4rem;
       text-align: center;
@@ -142,9 +142,9 @@ export class ClubLandingPage extends LitElement {
       width: 80px;
       height: 80px;
       margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, #be123c, #e11d48);
+      background: linear-gradient(135deg, #059669, #10b981);
       border-radius: 20px;
-      box-shadow: 0 10px 15px -3px rgba(190, 18, 60, 0.3);
+      box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.3);
     }
 
     .feature-icon {
@@ -169,7 +169,7 @@ export class ClubLandingPage extends LitElement {
     wa-card.cta-card {
       --wa-panel-border-radius: 24px;
       margin-bottom: 2rem;
-      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      background: linear-gradient(135deg, #065f46 0%, #047857 100%);
       position: relative;
       overflow: hidden;
     }
@@ -218,9 +218,9 @@ export class ClubLandingPage extends LitElement {
     wa-card.stat-card {
       --wa-panel-border-radius: 16px;
       text-align: center;
-      background: linear-gradient(135deg, #fff1f2 0%, #ffffff 100%);
+      background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
       backdrop-filter: blur(10px);
-      border: 1px solid #fecdd3;
+      border: 1px solid #d1fae5;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     }
 
@@ -233,7 +233,7 @@ export class ClubLandingPage extends LitElement {
       font-size: 2.5rem;
       font-weight: 800;
       margin: 0 0 0.5rem;
-      color: #be123c;
+      color: #059669;
       display: block;
     }
 
@@ -395,6 +395,6 @@ export class ClubLandingPage extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'club-landing-page': ClubLandingPage;
+    'club-landing-page-emerald': ClubLandingPageEmerald;
   }
 }

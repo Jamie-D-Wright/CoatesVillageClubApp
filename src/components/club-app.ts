@@ -6,11 +6,11 @@ import './layout/club-app-header';
 
 @customElement('club-app')
 export class ClubApp extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       display: block;
       min-height: 100vh;
-      background: #ffffff;
+      background: linear-gradient(180deg, #fff1f2 0%, #ffffff 100%);
     }
 
     main {
