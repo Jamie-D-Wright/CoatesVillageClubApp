@@ -15,25 +15,32 @@ Design system tokens define the visual language for Coates Village Club PWA. The
 --primary-300: #fda4af;
 --primary-400: #fb7185;
 --primary-500: #f43f5e;  /* Light primary */
---primary-600: #e11d48;  /* Main primary color */
---primary-700: #be123c;  /* Dark primary for headers */
+--primary-600: #e11d48;  /* Main primary color - PRIMARY ACCENT */
+--primary-700: #be123c;  /* Dark primary (less used in modern design) */
 --primary-800: #9f1239;
 --primary-900: #881337;
 ```
 
+**Modern Usage (2025):** Focus on `--primary-600` (#e11d48) as the main accent color throughout the application. Use `--primary-500` (#f43f5e) for gradients. Minimize use of darker shades for a lighter, cleaner look.
+
 ### Neutral Palette (Grays)
 ```css
---neutral-50: #f9fafb;
---neutral-100: #f3f4f6;
+--neutral-50: #f9fafb;   /* Subtle backgrounds */
+--neutral-100: #f3f4f6;  /* PREFERRED subtle borders and backgrounds */
 --neutral-200: #e5e7eb;
 --neutral-300: #d1d5db;
 --neutral-400: #9ca3af;
---neutral-500: #6b7280;
+--neutral-500: #6b7280;  /* Secondary text */
 --neutral-600: #4b5563;
 --neutral-700: #374151;
---neutral-800: #1f2937;
+--neutral-800: #1f2937;  /* PRIMARY text color */
 --neutral-900: #111827;
 ```
+
+**Modern Usage (2025):** 
+- Text: `--neutral-800` (#1f2937) for main content
+- Borders: `--neutral-100` (#f3f4f6) for subtle definition
+- Backgrounds: Pure `#ffffff` or `--neutral-50` (#f9fafb) for subtle variation
 
 ### Semantic Colors
 ```css
@@ -60,16 +67,28 @@ Design system tokens define the visual language for Coates Village Club PWA. The
 
 ### Background Colors
 ```css
---bg-primary: #ffffff;
---bg-secondary: #fff1f2;       /* Rose tint */
---bg-tertiary: #ffe4e6;        /* Lighter rose tint */
+--bg-primary: #ffffff;         /* Pure white - PREFERRED (2025 update) */
+--bg-secondary: #f9fafb;       /* Subtle gray for meta sections */
+--bg-tertiary: #f3f4f6;        /* Slightly darker for differentiation */
+
+/* Deprecated rose tints (legacy) */
+--bg-rose-light: #fff1f2;      
+--bg-rose-lighter: #ffe4e6;    
 --bg-gradient: linear-gradient(180deg, #fff1f2 0%, #ffffff 100%);
 ```
 
+**Modern Usage (2025):** Use pure white (#ffffff) for main backgrounds. Use subtle grays (#f9fafb, #f3f4f6) for differentiation. Rose-tinted backgrounds are deprecated in favor of cleaner neutrals.
+
 ### Hero/Feature Gradients
 ```css
---hero-gradient: linear-gradient(135deg, #be123c 0%, #e11d48 50%, #f43f5e 100%);
+/* Modern 2-tone gradient (2025 update) */
+--hero-gradient: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);
+
+/* Legacy 3-tone gradient (deprecated) */
+--hero-gradient-legacy: linear-gradient(135deg, #be123c 0%, #e11d48 50%, #f43f5e 100%);
 ```
+
+**Modern Usage:** Simplified to 2-tone gradient for cleaner, more modern look. Removes the darker #be123c shade for a lighter overall aesthetic.
 
 ### Text Colors
 ```css
@@ -81,11 +100,19 @@ Design system tokens define the visual language for Coates Village Club PWA. The
 
 ### Border Colors
 ```css
---border-light: #fecdd3;      /* Rose-200 for primary borders */
---border-medium: #fda4af;     /* Rose-300 */
---border-dark: #fb7185;       /* Rose-400 */
---border-neutral: #e5e7eb;    /* Neutral borders */
+/* Modern neutral borders (2025 update - PREFERRED) */
+--border-primary: #f3f4f6;    /* Subtle neutral - primary choice */
+--border-hover: #fee2e2;      /* Light rose for hover states */
+--border-focus: #e11d48;      /* Accent color for focus/active */
+
+/* Deprecated rose borders (legacy) */
+--border-rose-light: #fecdd3; /* Rose-200 */
+--border-rose-medium: #fda4af;/* Rose-300 */
+--border-rose-dark: #fb7185;  /* Rose-400 */
+--border-neutral: #e5e7eb;    /* Medium neutral */
 ```
+
+**Modern Usage (2025):** Default to #f3f4f6 for subtle borders. Use #fee2e2 for hover states. Reserve bold colors (#e11d48) for focus/active states only.
 
 ## Typography
 
@@ -279,6 +306,85 @@ fa-button {
 ### Minimum Touch Targets
 ```css
 --touch-target-min: 44px;  /* WCAG 2.1 AAA: 44x44px */
+```
+
+## Modern Design System (2025 Update)
+
+### Design Philosophy
+The 2025 update focuses on:
+- **Cleaner aesthetics**: Pure white backgrounds, subtle shadows
+- **Reduced visual weight**: Lighter font weights (700 vs 800)
+- **Better hierarchy**: Clear typography scale with clamp()
+- **Subtle interactions**: Refined hover effects and transitions
+- **Neutral palette**: Minimize colored backgrounds, use white/gray
+
+### Key Changes from Previous Version
+1. **Backgrounds**: White (#ffffff) instead of rose gradients
+2. **Gradients**: 2-tone (#e11d48 → #f43f5e) instead of 3-tone
+3. **Borders**: Neutral (#f3f4f6) instead of pink (#fecdd3)
+4. **Shadows**: Lighter, more subtle (0.05 opacity vs 0.1)
+5. **Typography**: Font weight 700 (semibold) instead of 800 (extrabold)
+6. **Transitions**: Cubic-bezier(0.4, 0, 0.2, 1) for natural motion
+7. **Spacing**: Fluid with clamp() for responsive design
+
+### Component Design Patterns
+
+#### Cards
+```css
+background: #ffffff;
+border: 1px solid #f3f4f6;
+box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+border-radius: 16px;
+
+/* Hover */
+transform: translateY(-6px);
+box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+border-color: #fee2e2;
+```
+
+#### Buttons
+```css
+border-radius: 10px;
+font-weight: 600;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+/* Hover */
+transform: translateY(-1px);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+```
+
+#### Hero Sections
+```css
+background: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);
+padding: clamp(4rem, 10vh, 8rem) 1.5rem;
+font-size: clamp(2.5rem, 6vw, 4.5rem);
+font-weight: 700;
+color: white;
+```
+
+#### Typography Scale
+```css
+/* Hero title */
+font-size: clamp(2.5rem, 6vw, 4.5rem);
+font-weight: 700;
+letter-spacing: -0.03em;
+line-height: 1.1;
+
+/* Section title */
+font-size: clamp(2rem, 4vw, 3rem);
+font-weight: 700;
+letter-spacing: -0.025em;
+
+/* Card title */
+font-size: 1.25rem;
+font-weight: 600;
+line-height: 1.3;
+
+/* Body text */
+font-size: 0.9375rem;
+line-height: 1.7;
+color: #6b7280;
 ```
 
 ## Usage Guidelines
