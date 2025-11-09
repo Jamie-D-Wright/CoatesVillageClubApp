@@ -1,0 +1,46 @@
+{
+  "name": "Coates Village Club",
+  "short_name": "CVC",
+  "description": "Stay connected with Coates Village Club events and activities",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e40af",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["social", "entertainment"],
+  "shortcuts": [
+    {
+      "name": "View Events",
+      "short_name": "Events",
+      "description": "See upcoming club events",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/icon-events.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

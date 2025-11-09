@@ -20,10 +20,17 @@ The backend API and microservices that this UI consumes are documented in the **
 
 ### Core Technologies
 - **Frontend Framework**: [Lit](https://lit.dev/) - Lightweight web components library
-- **UI Components**: [Web Awesome](https://webawesome.com/) - Modern component library
+- **UI Components**: [Web Awesome Pro](https://webawesome.com/) - Modern component library (loaded via CDN)
 - **Testing & Visual Validation**: [Playwright](https://playwright.dev/) - Used extensively for testing, visual validation, and AI-assisted UI refinement
 - **Hosting**: Azure Blob Storage with Azure Web App (Static Website)
 - **PWA**: Service Workers, Web App Manifest, offline capabilities
+
+### Web Awesome Pro CDN
+The project uses Web Awesome Pro via CDN instead of NPM package for:
+- Access to all Pro components and icons
+- Smaller bundle size (components loaded on-demand)
+- Automatic updates to latest Pro features
+- CDN Kit ID: `60d71a227629472d` (included in `index.html`)
 
 ### Dependency Philosophy
 - **Minimal Dependencies**: Keep the dependency tree as lean as possible

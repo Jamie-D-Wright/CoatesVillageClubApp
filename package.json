@@ -1,0 +1,46 @@
+{
+  "name": "coates-village-club-app",
+  "version": "0.1.0",
+  "description": "Progressive Web App for Coates Village Club - event management and member interactions",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "lint": "eslint src --ext ts,tsx",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@lit/context": "^1.1.6",
+    "@vaadin/router": "^2.0.0",
+    "lit": "^3.2.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^22.8.0",
+    "@typescript-eslint/eslint-plugin": "^8.11.0",
+    "@typescript-eslint/parser": "^8.11.0",
+    "axe-playwright": "^2.0.3",
+    "eslint": "^8.57.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
+    "vite-plugin-pwa": "^0.20.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "pwa",
+    "lit",
+    "web-components",
+    "village-club",
+    "events"
+  ],
+  "author": "Coates Village Club",
+  "license": "MIT"
+}
